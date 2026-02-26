@@ -1,7 +1,10 @@
-# Volans-kasutatud-allikad
-Interneti allikad, mida kasutasime satelliidi valmistamiseks ja lisamaterjalid 
-allikas1.png 
-source: https://launchwithus.com/lwu-blog/2016/02/17/parachute-size-estimator-for-high-altitude-balloons
+# Volans-tarkvara
 
-allikas2.png
-sourse: https://www.apogeerockets.com/Peak-of-Flight/Newsletter662
+kood1.png 
+source: https://drive.google.com/file/d/1BVnHYB2yMIbECj1d8hz99sujirEr6j0-/view?usp=drivesdk
+
+kood2.png
+sourse: https://drive.google.com/file/d/1YhcFcqaS76ZDKoL93py3vVVYHwdZodYS/view?usp=drivesdk
+
+kood3.png
+source: https://drive.google.com/file/d/1BVnHYB2yMIbECj1d8hz99sujirEr6j0-/view?usp=drivesdk
