@@ -1,0 +1,405 @@
+[2026-03-19 12:17:24] No camera detected
+[2026-03-19 12:17:24] CanSat system started
+[2026-03-19 12:17:24] Baro error: [Errno 5] Input/output error
+[2026-03-19 12:17:24] IMU error: [Errno 121] Remote I/O error
+[2026-03-19 12:17:24] ACK timeout for TEL seq 1
+[2026-03-19 12:17:25] Baro error: [Errno 5] Input/output error
+[2026-03-19 12:17:25] ACK timeout for TEL seq 2
+[2026-03-19 12:17:26] Baro error: [Errno 5] Input/output error
+[2026-03-19 12:17:26] IMU error: [Errno 121] Remote I/O error
+[2026-03-19 12:17:27] ACK timeout for TEL seq 3
+[2026-03-19 12:17:28] Baro error: [Errno 5] Input/output error
+[2026-03-19 12:17:28] IMU error: [Errno 5] Input/output error
+[2026-03-19 12:17:28] ACK timeout for TEL seq 4
+[2026-03-19 12:17:29] Baro error: [Errno 5] Input/output error
+[2026-03-19 12:17:29] ACK timeout for TEL seq 5
+[2026-03-19 12:17:29] Stopped by user
+[2026-03-19 12:18:55] No camera detected
+[2026-03-19 12:18:55] CanSat system started
+[2026-03-19 12:18:55] Baro error: [Errno 5] Input/output error
+[2026-03-19 12:18:55] IMU error: [Errno 5] Input/output error
+[2026-03-19 12:18:55] ACK timeout for TEL seq 1
+[2026-03-19 12:18:56] Baro error: [Errno 5] Input/output error
+[2026-03-19 12:18:56] ACK timeout for TEL seq 2
+[2026-03-19 12:18:57] Baro error: [Errno 5] Input/output error
+[2026-03-19 12:18:57] IMU error: [Errno 5] Input/output error
+[2026-03-19 12:18:57] ACK timeout for TEL seq 3
+[2026-03-19 12:18:58] Baro error: [Errno 5] Input/output error
+[2026-03-19 12:18:59] ACK timeout for TEL seq 4
+[2026-03-19 12:18:59] Stopped by user
+[2026-03-19 14:51:31] No camera detected
+[2026-03-19 14:51:31] CanSat system started
+[2026-03-19 14:51:32] ACK timeout for TEL seq 1
+[2026-03-19 14:51:33] ACK timeout for TEL seq 2
+[2026-03-19 14:51:34] ACK timeout for TEL seq 3
+[2026-03-19 14:51:36] ACK timeout for TEL seq 4
+[2026-03-19 14:51:37] ACK timeout for TEL seq 5
+[2026-03-19 14:51:38] ACK timeout for TEL seq 6
+[2026-03-19 14:51:39] ACK timeout for TEL seq 7
+[2026-03-19 14:51:41] ACK timeout for TEL seq 8
+[2026-03-19 14:51:42] ACK timeout for TEL seq 9
+[2026-03-19 14:51:43] Baro calibrated
+[2026-03-19 14:51:43] ACK timeout for TEL seq 10
+[2026-03-19 14:51:45] ACK timeout for TEL seq 11
+[2026-03-19 14:51:46] ACK timeout for TEL seq 12
+[2026-03-19 14:51:47] ACK timeout for TEL seq 13
+[2026-03-19 14:51:48] ACK timeout for TEL seq 14
+[2026-03-19 14:51:50] ACK timeout for TEL seq 15
+[2026-03-19 14:51:51] ACK timeout for TEL seq 16
+[2026-03-19 14:51:52] ACK timeout for TEL seq 17
+[2026-03-19 14:51:54] ACK timeout for TEL seq 18
+[2026-03-19 14:51:55] ACK timeout for TEL seq 19
+[2026-03-19 14:51:56] ACK timeout for TEL seq 20
+[2026-03-19 14:51:57] ACK timeout for TEL seq 21
+[2026-03-19 14:51:59] ACK timeout for TEL seq 22
+[2026-03-19 14:52:00] ACK timeout for TEL seq 23
+[2026-03-19 14:52:01] ACK timeout for TEL seq 24
+[2026-03-19 14:52:03] ACK timeout for TEL seq 25
+[2026-03-19 14:52:04] ACK timeout for TEL seq 26
+[2026-03-19 14:52:05] ACK timeout for TEL seq 27
+[2026-03-19 14:52:07] ACK timeout for TEL seq 28
+[2026-03-19 14:52:08] ACK timeout for TEL seq 29
+[2026-03-19 14:52:09] ACK timeout for TEL seq 30
+[2026-03-19 14:52:10] ACK timeout for TEL seq 31
+[2026-03-19 14:52:12] ACK timeout for TEL seq 32
+[2026-03-19 14:52:13] ACK timeout for TEL seq 33
+[2026-03-19 14:52:14] ACK timeout for TEL seq 34
+[2026-03-19 14:52:16] ACK timeout for TEL seq 35
+[2026-03-19 14:52:17] ACK timeout for TEL seq 36
+[2026-03-19 14:52:18] ACK timeout for TEL seq 37
+[2026-03-19 14:52:20] ACK timeout for TEL seq 38
+[2026-03-19 14:52:21] ACK timeout for TEL seq 39
+[2026-03-19 14:52:22] ACK timeout for TEL seq 40
+[2026-03-19 14:52:23] ACK timeout for TEL seq 41
+[2026-03-19 14:52:25] ACK timeout for TEL seq 42
+[2026-03-19 14:52:26] ACK timeout for TEL seq 43
+[2026-03-19 14:52:27] ACK timeout for TEL seq 44
+[2026-03-19 14:52:29] ACK timeout for TEL seq 45
+[2026-03-19 14:52:30] ACK timeout for TEL seq 46
+[2026-03-19 14:52:31] ACK timeout for TEL seq 47
+[2026-03-19 14:52:32] ACK timeout for TEL seq 48
+[2026-03-19 14:52:34] ACK timeout for TEL seq 49
+[2026-03-19 14:52:35] ACK timeout for TEL seq 50
+[2026-03-19 14:52:36] ACK timeout for TEL seq 51
+[2026-03-19 14:52:38] ACK timeout for TEL seq 52
+[2026-03-19 14:52:39] ACK timeout for TEL seq 53
+[2026-03-19 14:52:40] ACK timeout for TEL seq 54
+[2026-03-19 14:52:42] ACK timeout for TEL seq 55
+[2026-03-19 14:52:43] ACK timeout for TEL seq 56
+[2026-03-19 14:52:44] ACK timeout for TEL seq 57
+[2026-03-19 14:52:45] ACK timeout for TEL seq 58
+[2026-03-19 14:52:47] ACK timeout for TEL seq 59
+[2026-03-19 14:52:48] ACK timeout for TEL seq 60
+[2026-03-19 14:52:49] ACK timeout for TEL seq 61
+[2026-03-19 14:52:51] ACK timeout for TEL seq 62
+[2026-03-19 14:52:52] ACK timeout for TEL seq 63
+[2026-03-19 14:52:53] ACK timeout for TEL seq 64
+[2026-03-19 14:52:54] ACK timeout for TEL seq 65
+[2026-03-19 14:52:56] ACK timeout for TEL seq 66
+[2026-03-19 14:52:57] ACK timeout for TEL seq 67
+[2026-03-19 14:52:58] ACK timeout for TEL seq 68
+[2026-03-19 14:53:00] ACK timeout for TEL seq 69
+[2026-03-19 14:53:01] ACK timeout for TEL seq 70
+[2026-03-19 14:53:02] Stopped by user
+[2026-03-19 14:53:09] No camera detected
+[2026-03-19 14:53:09] CanSat system started
+[2026-03-19 14:53:09] ACK timeout for TEL seq 1
+[2026-03-19 14:53:10] ACK timeout for TEL seq 2
+[2026-03-19 14:53:12] ACK timeout for TEL seq 3
+[2026-03-19 14:53:13] ACK timeout for TEL seq 4
+[2026-03-19 14:53:14] ACK timeout for TEL seq 5
+[2026-03-19 14:53:15] ACK timeout for TEL seq 6
+[2026-03-19 14:53:17] ACK timeout for TEL seq 7
+[2026-03-19 14:53:18] ACK timeout for TEL seq 8
+[2026-03-19 14:53:19] ACK timeout for TEL seq 9
+[2026-03-19 14:53:20] Baro calibrated
+[2026-03-19 14:53:21] ACK timeout for TEL seq 10
+[2026-03-19 14:53:22] ACK timeout for TEL seq 11
+[2026-03-19 14:53:23] ACK timeout for TEL seq 12
+[2026-03-19 14:53:25] ACK timeout for TEL seq 13
+[2026-03-19 14:53:26] ACK timeout for TEL seq 14
+[2026-03-19 14:53:27] ACK timeout for TEL seq 15
+[2026-03-19 14:53:28] ACK timeout for TEL seq 16
+[2026-03-19 14:53:30] ACK timeout for TEL seq 17
+[2026-03-19 14:53:31] ACK timeout for TEL seq 18
+[2026-03-19 14:53:32] ACK timeout for TEL seq 19
+[2026-03-19 14:53:34] ACK timeout for TEL seq 20
+[2026-03-19 14:53:35] ACK timeout for TEL seq 21
+[2026-03-19 14:53:36] ACK timeout for TEL seq 22
+[2026-03-19 14:53:38] ACK timeout for TEL seq 23
+[2026-03-19 14:53:39] ACK timeout for TEL seq 24
+[2026-03-19 14:53:40] ACK timeout for TEL seq 25
+[2026-03-19 14:53:42] ACK timeout for TEL seq 26
+[2026-03-19 14:53:43] ACK timeout for TEL seq 27
+[2026-03-19 14:53:44] ACK timeout for TEL seq 28
+[2026-03-19 14:53:45] ACK timeout for TEL seq 29
+[2026-03-19 14:53:47] ACK timeout for TEL seq 30
+[2026-03-19 14:53:48] ACK timeout for TEL seq 31
+[2026-03-19 14:53:49] ACK timeout for TEL seq 32
+[2026-03-19 14:53:51] ACK timeout for TEL seq 33
+[2026-03-19 14:53:52] ACK timeout for TEL seq 34
+[2026-03-19 14:53:53] ACK timeout for TEL seq 35
+[2026-03-19 14:53:54] Stopped by user
+[2026-03-19 14:54:48] No camera detected
+[2026-03-19 14:54:48] CanSat system started
+[2026-03-19 14:54:48] ACK timeout for TEL seq 1
+[2026-03-19 14:54:50] ACK timeout for TEL seq 2
+[2026-03-19 14:54:51] ACK timeout for TEL seq 3
+[2026-03-19 14:54:52] ACK timeout for TEL seq 4
+[2026-03-19 14:54:54] ACK timeout for TEL seq 5
+[2026-03-19 14:54:55] ACK timeout for TEL seq 6
+[2026-03-19 14:54:56] ACK timeout for TEL seq 7
+[2026-03-19 14:54:57] ACK timeout for TEL seq 8
+[2026-03-19 14:54:59] Stopped by user
+[2026-03-19 14:57:48] No camera detected
+[2026-03-19 14:57:48] CanSat system started
+[2026-03-19 14:57:49] ACK timeout for TEL seq 1
+[2026-03-19 14:57:50] ACK timeout for TEL seq 2
+[2026-03-19 14:57:51] ACK timeout for TEL seq 3
+[2026-03-19 14:57:53] ACK timeout for TEL seq 4
+[2026-03-19 14:57:54] ACK timeout for TEL seq 5
+[2026-03-19 14:57:55] ACK timeout for TEL seq 6
+[2026-03-19 14:57:56] ACK timeout for TEL seq 7
+[2026-03-19 14:57:58] ACK timeout for TEL seq 8
+[2026-03-19 14:57:59] LoRa RX: 
+[2026-03-19 14:57:59] LoRa RX: 
+[2026-03-19 14:57:59] LoRa RX: 
+[2026-03-19 14:57:59] ACK timeout for TEL seq 9
+[2026-03-19 14:58:00] Baro calibrated
+[2026-03-19 14:58:00] ACK timeout for TEL seq 10
+[2026-03-19 14:58:02] ACK timeout for TEL seq 11
+[2026-03-19 14:58:03] ACK timeout for TEL seq 12
+[2026-03-19 14:58:04] ACK timeout for TEL seq 13
+[2026-03-19 14:58:06] ACK timeout for TEL seq 14
+[2026-03-19 14:58:07] ACK timeout for TEL seq 15
+[2026-03-19 14:58:08] ACK timeout for TEL seq 16
+[2026-03-19 14:58:09] ACK timeout for TEL seq 17
+[2026-03-19 14:58:11] ACK timeout for TEL seq 18
+[2026-03-19 14:58:12] ACK timeout for TEL seq 19
+[2026-03-19 14:58:13] ACK timeout for TEL seq 20
+[2026-03-19 14:58:15] ACK timeout for TEL seq 21
+[2026-03-19 14:58:16] PARACHUTE DEPLOY: AUTO
+[2026-03-19 14:58:18] ACK timeout for TEL seq 22
+[2026-03-19 14:58:19] ACK timeout for TEL seq 23
+[2026-03-19 14:58:21] ACK timeout for TEL seq 24
+[2026-03-19 14:58:22] ACK timeout for TEL seq 25
+[2026-03-19 14:58:23] ACK timeout for TEL seq 26
+[2026-03-19 14:58:25] ACK timeout for TEL seq 27
+[2026-03-19 14:58:26] ACK timeout for TEL seq 28
+[2026-03-19 14:58:27] ACK timeout for TEL seq 29
+[2026-03-19 14:58:28] ACK timeout for TEL seq 30
+[2026-03-19 14:58:30] ACK timeout for TEL seq 31
+[2026-03-19 14:58:31] ACK timeout for TEL seq 32
+[2026-03-19 14:58:32] ACK timeout for TEL seq 33
+[2026-03-19 14:58:34] ACK timeout for TEL seq 34
+[2026-03-19 14:58:35] ACK timeout for TEL seq 35
+[2026-03-19 14:58:36] ACK timeout for TEL seq 36
+[2026-03-19 14:58:38] ACK timeout for TEL seq 37
+[2026-03-19 14:58:39] ACK timeout for TEL seq 38
+[2026-03-19 14:58:40] LoRa send error: write failed: [Errno 5] Input/output error
+[2026-03-19 14:58:40] ACK wait error: [Errno 5] Input/output error
+[2026-03-19 14:58:40] ACK timeout for TEL seq 39
+[2026-03-19 14:58:41] Command read error: [Errno 5] Input/output error
+[2026-03-19 14:58:41] LoRa send error: write failed: [Errno 5] Input/output error
+[2026-03-19 14:58:41] ACK wait error: [Errno 5] Input/output error
+[2026-03-19 14:58:41] ACK timeout for TEL seq 40
+[2026-03-19 14:58:42] Command read error: [Errno 5] Input/output error
+[2026-03-19 14:58:42] LoRa send error: write failed: [Errno 5] Input/output error
+[2026-03-19 14:58:42] ACK wait error: [Errno 5] Input/output error
+[2026-03-19 14:58:42] ACK timeout for TEL seq 41
+[2026-03-19 14:58:43] Command read error: [Errno 5] Input/output error
+[2026-03-19 14:58:43] LoRa send error: write failed: [Errno 5] Input/output error
+[2026-03-19 14:58:43] ACK wait error: [Errno 5] Input/output error
+[2026-03-19 14:58:43] ACK timeout for TEL seq 42
+[2026-03-19 14:58:44] Command read error: [Errno 5] Input/output error
+[2026-03-19 14:58:44] LoRa send error: write failed: [Errno 5] Input/output error
+[2026-03-19 14:58:44] ACK wait error: [Errno 5] Input/output error
+[2026-03-19 14:58:44] ACK timeout for TEL seq 43
+[2026-03-19 14:58:45] Command read error: [Errno 5] Input/output error
+[2026-03-19 14:58:45] LoRa send error: write failed: [Errno 5] Input/output error
+[2026-03-19 14:58:45] ACK wait error: [Errno 5] Input/output error
+[2026-03-19 14:58:45] ACK timeout for TEL seq 44
+[2026-03-19 14:58:46] Command read error: [Errno 5] Input/output error
+[2026-03-19 14:58:47] LoRa send error: write failed: [Errno 5] Input/output error
+[2026-03-19 14:58:47] ACK wait error: [Errno 5] Input/output error
+[2026-03-19 14:58:47] ACK timeout for TEL seq 45
+[2026-03-19 14:58:48] Command read error: [Errno 5] Input/output error
+[2026-03-19 14:58:48] LoRa send error: write failed: [Errno 5] Input/output error
+[2026-03-19 14:58:48] ACK wait error: [Errno 5] Input/output error
+[2026-03-19 14:58:48] ACK timeout for TEL seq 46
+[2026-03-19 14:58:49] Command read error: [Errno 5] Input/output error
+[2026-03-19 14:58:49] LoRa send error: write failed: [Errno 5] Input/output error
+[2026-03-19 14:58:49] ACK wait error: [Errno 5] Input/output error
+[2026-03-19 14:58:49] ACK timeout for TEL seq 47
+[2026-03-19 14:58:50] Command read error: [Errno 5] Input/output error
+[2026-03-19 14:58:50] LoRa send error: write failed: [Errno 5] Input/output error
+[2026-03-19 14:58:50] ACK wait error: [Errno 5] Input/output error
+[2026-03-19 14:58:50] ACK timeout for TEL seq 48
+[2026-03-19 14:58:51] Command read error: [Errno 5] Input/output error
+[2026-03-19 14:58:51] LoRa send error: write failed: [Errno 5] Input/output error
+[2026-03-19 14:58:51] ACK wait error: [Errno 5] Input/output error
+[2026-03-19 14:58:51] ACK timeout for TEL seq 49
+[2026-03-19 14:58:52] Command read error: [Errno 5] Input/output error
+[2026-03-19 14:58:52] LoRa send error: write failed: [Errno 5] Input/output error
+[2026-03-19 14:58:52] ACK wait error: [Errno 5] Input/output error
+[2026-03-19 14:58:52] ACK timeout for TEL seq 50
+[2026-03-19 14:58:53] Command read error: [Errno 5] Input/output error
+[2026-03-19 14:58:53] LoRa send error: write failed: [Errno 5] Input/output error
+[2026-03-19 14:58:53] ACK wait error: [Errno 5] Input/output error
+[2026-03-19 14:58:53] ACK timeout for TEL seq 51
+[2026-03-19 14:58:54] Command read error: [Errno 5] Input/output error
+[2026-03-19 14:58:54] LoRa send error: write failed: [Errno 5] Input/output error
+[2026-03-19 14:58:54] ACK wait error: [Errno 5] Input/output error
+[2026-03-19 14:58:54] ACK timeout for TEL seq 52
+[2026-03-19 14:58:55] Command read error: [Errno 5] Input/output error
+[2026-03-19 14:58:55] LoRa send error: write failed: [Errno 5] Input/output error
+[2026-03-19 14:58:55] ACK wait error: [Errno 5] Input/output error
+[2026-03-19 14:58:55] ACK timeout for TEL seq 53
+[2026-03-19 14:58:56] Command read error: [Errno 5] Input/output error
+[2026-03-19 14:58:56] LoRa send error: write failed: [Errno 5] Input/output error
+[2026-03-19 14:58:56] ACK wait error: [Errno 5] Input/output error
+[2026-03-19 14:58:56] ACK timeout for TEL seq 54
+[2026-03-19 14:58:57] Command read error: [Errno 5] Input/output error
+[2026-03-19 14:58:58] LoRa send error: write failed: [Errno 5] Input/output error
+[2026-03-19 14:58:58] ACK wait error: [Errno 5] Input/output error
+[2026-03-19 14:58:58] ACK timeout for TEL seq 55
+[2026-03-19 14:58:58] Stopped by user
+[2026-03-20 00:05:15] No camera detected
+[2026-03-20 00:05:15] CanSat system started
+[2026-03-20 00:05:15] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:15] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:16] ACK timeout for TEL seq 1
+[2026-03-20 00:05:17] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:17] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:17] ACK timeout for TEL seq 2
+[2026-03-20 00:05:18] ACK timeout for TEL seq 3
+[2026-03-20 00:05:19] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:19] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:19] ACK timeout for TEL seq 4
+[2026-03-20 00:05:20] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:20] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:21] ACK timeout for TEL seq 5
+[2026-03-20 00:05:22] ACK timeout for TEL seq 6
+[2026-03-20 00:05:23] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:23] ACK timeout for TEL seq 7
+[2026-03-20 00:05:24] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:24] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:24] ACK timeout for TEL seq 8
+[2026-03-20 00:05:25] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:25] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:26] ACK timeout for TEL seq 9
+[2026-03-20 00:05:27] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:27] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:27] ACK timeout for TEL seq 10
+[2026-03-20 00:05:28] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:28] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:28] ACK timeout for TEL seq 11
+[2026-03-20 00:05:29] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:29] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:29] ACK timeout for TEL seq 12
+[2026-03-20 00:05:30] ACK timeout for TEL seq 13
+[2026-03-20 00:05:32] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:32] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:32] ACK timeout for TEL seq 14
+[2026-03-20 00:05:33] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:33] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:33] ACK timeout for TEL seq 15
+[2026-03-20 00:05:34] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:34] ACK timeout for TEL seq 16
+[2026-03-20 00:05:35] ACK timeout for TEL seq 17
+[2026-03-20 00:05:37] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:37] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:37] ACK timeout for TEL seq 18
+[2026-03-20 00:05:38] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:38] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:38] ACK timeout for TEL seq 19
+[2026-03-20 00:05:39] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:39] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:39] ACK timeout for TEL seq 20
+[2026-03-20 00:05:40] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:40] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:40] ACK timeout for TEL seq 21
+[2026-03-20 00:05:41] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:41] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:42] ACK timeout for TEL seq 22
+[2026-03-20 00:05:43] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:43] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:43] ACK timeout for TEL seq 23
+[2026-03-20 00:05:44] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:44] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:44] ACK timeout for TEL seq 24
+[2026-03-20 00:05:45] ACK timeout for TEL seq 25
+[2026-03-20 00:05:46] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:46] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:47] ACK timeout for TEL seq 26
+[2026-03-20 00:05:48] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:48] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:48] ACK timeout for TEL seq 27
+[2026-03-20 00:05:49] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:49] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:49] ACK timeout for TEL seq 28
+[2026-03-20 00:05:50] ACK timeout for TEL seq 29
+[2026-03-20 00:05:51] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:51] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:52] ACK timeout for TEL seq 30
+[2026-03-20 00:05:53] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:53] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:53] ACK timeout for TEL seq 31
+[2026-03-20 00:05:54] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:54] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:54] ACK timeout for TEL seq 32
+[2026-03-20 00:05:55] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:55] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:55] ACK timeout for TEL seq 33
+[2026-03-20 00:05:56] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:56] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:05:56] ACK timeout for TEL seq 34
+[2026-03-20 00:05:57] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:05:58] ACK timeout for TEL seq 35
+[2026-03-20 00:05:59] ACK timeout for TEL seq 36
+[2026-03-20 00:06:00] Baro error: [Errno 121] Remote I/O error
+[2026-03-20 00:06:00] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:06:00] ACK timeout for TEL seq 37
+[2026-03-20 00:06:01] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:06:01] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:06:01] ACK timeout for TEL seq 38
+[2026-03-20 00:06:03] ACK timeout for TEL seq 39
+[2026-03-20 00:06:04] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:06:04] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:06:04] ACK timeout for TEL seq 40
+[2026-03-20 00:06:05] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:06:05] ACK timeout for TEL seq 41
+[2026-03-20 00:06:06] Baro calibrated
+[2026-03-20 00:06:06] ACK timeout for TEL seq 42
+[2026-03-20 00:06:07] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:06:07] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:06:08] ACK timeout for TEL seq 43
+[2026-03-20 00:06:09] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:06:09] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:06:09] ACK timeout for TEL seq 44
+[2026-03-20 00:06:10] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:06:10] ACK timeout for TEL seq 45
+[2026-03-20 00:06:11] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:06:11] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:06:11] ACK timeout for TEL seq 46
+[2026-03-20 00:06:12] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:06:12] ACK timeout for TEL seq 47
+[2026-03-20 00:06:13] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:06:13] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:06:14] ACK timeout for TEL seq 48
+[2026-03-20 00:06:15] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:06:15] ACK timeout for TEL seq 49
+[2026-03-20 00:06:16] ACK timeout for TEL seq 50
+[2026-03-20 00:06:17] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:06:17] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:06:17] ACK timeout for TEL seq 51
+[2026-03-20 00:06:18] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:06:18] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:06:19] ACK timeout for TEL seq 52
+[2026-03-20 00:06:20] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:06:20] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:06:20] ACK timeout for TEL seq 53
+[2026-03-20 00:06:21] Baro error: [Errno 5] Input/output error
+[2026-03-20 00:06:21] IMU error: [Errno 121] Remote I/O error
+[2026-03-20 00:06:21] ACK timeout for TEL seq 54
+[2026-03-20 00:06:21] Stopped by user
