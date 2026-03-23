@@ -9,8 +9,455 @@ import os
 import base64
 import io
 import math
-from datetime import datetime
+import zipfile
+import xml.etree.ElementTree as ET
+from datetime import datetime, timedelta
 from PIL import Image, ImageTk
+
+try:
+    import matplotlib
+    matplotlib.use("TkAgg")
+    from matplotlib.figure import Figure
+    from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+    _HAS_MPL = True
+except ImportError:
+    _HAS_MPL = False
+
+try:
+    from pyopengltk import OpenGLFrame
+    from OpenGL.GL import (
+        glClearColor, glEnable, glDisable, glClear, glBegin, glEnd,
+        glVertex3f, glNormal3f, glColor3f, glColorMaterial,
+        glLightfv, glMaterialfv, glMaterialf, glShadeModel,
+        glMatrixMode, glLoadIdentity, glViewport,
+        glRotatef, glScalef, glGenLists, glNewList, glEndList, glCallList,
+        glPolygonMode, glPolygonOffset, glLineWidth,
+        GL_DEPTH_TEST, GL_LIGHTING, GL_LIGHT0, GL_LIGHT1,
+        GL_COLOR_MATERIAL, GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE,
+        GL_SMOOTH, GL_POSITION, GL_DIFFUSE, GL_AMBIENT, GL_SPECULAR,
+        GL_SHININESS, GL_TRIANGLES, GL_COMPILE,
+        GL_COLOR_BUFFER_BIT, GL_DEPTH_BUFFER_BIT,
+        GL_PROJECTION, GL_MODELVIEW,
+        GL_POLYGON_OFFSET_FILL, GL_LINE, GL_FILL,
+    )
+    from OpenGL.GLU import gluPerspective, gluLookAt
+    _HAS_GL = True
+except ImportError:
+    _HAS_GL = False
+
+
+def load_3mf(filepath):
+    ns = "http://schemas.microsoft.com/3dmanufacturing/core/2015/02"
+    vertices, triangles = [], []
+    with zipfile.ZipFile(filepath, "r") as zf:
+        model_files = [n for n in zf.namelist() if n.endswith(".model")]
+        if not model_files:
+            raise ValueError("No .model file found in .3mf archive")
+        with zf.open(model_files[0]) as f:
+            root = ET.parse(f).getroot()
+
+    for mesh in root.iter(f"{{{ns}}}mesh"):
+        base = len(vertices)
+        verts_el = mesh.find(f"{{{ns}}}vertices")
+        if verts_el is not None:
+            for v in verts_el.findall(f"{{{ns}}}vertex"):
+                vertices.append((
+                    float(v.get("x", 0)),
+                    float(v.get("y", 0)),
+                    float(v.get("z", 0)),
+                ))
+        tris_el = mesh.find(f"{{{ns}}}triangles")
+        if tris_el is not None:
+            for t in tris_el.findall(f"{{{ns}}}triangle"):
+                triangles.append((
+                    base + int(t.get("v1")),
+                    base + int(t.get("v2")),
+                    base + int(t.get("v3")),
+                ))
+    return vertices, triangles
+
+
+if _HAS_GL:
+    class CanSatGLFrame(OpenGLFrame):
+        def __init__(self, parent, app, model_path, **kwargs):
+            super().__init__(parent, **kwargs)
+            self.app = app
+            self.model_path = model_path
+            self._display_list = None
+            self._model_scale = 1.0
+            self.animate = 33
+
+            self.imu_driven = True
+            self._mouse_rx = 0.0
+            self._mouse_ry = 0.0
+            self._drag_last = None
+
+            self.bind("<ButtonPress-1>", self._on_mouse_press)
+            self.bind("<B1-Motion>", self._on_mouse_drag)
+
+        def initgl(self):
+            glClearColor(0.01, 0.01, 0.04, 1.0)
+            glEnable(GL_DEPTH_TEST)
+            glEnable(GL_LIGHTING)
+            glEnable(GL_LIGHT0)
+            glEnable(GL_LIGHT1)
+            glEnable(GL_COLOR_MATERIAL)
+            glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
+            glShadeModel(GL_SMOOTH)
+
+            glLightfv(GL_LIGHT0, GL_POSITION, [3.0, 5.0, 4.0, 0.0])
+            glLightfv(GL_LIGHT0, GL_DIFFUSE, [0.0, 0.9, 0.85, 1.0])
+            glLightfv(GL_LIGHT0, GL_AMBIENT, [0.04, 0.04, 0.08, 1.0])
+            glLightfv(GL_LIGHT0, GL_SPECULAR, [0.0, 1.0, 0.9, 1.0])
+
+            glLightfv(GL_LIGHT1, GL_POSITION, [-3.0, -2.0, -3.0, 0.0])
+            glLightfv(GL_LIGHT1, GL_DIFFUSE, [0.6, 0.0, 0.55, 1.0])
+            glLightfv(GL_LIGHT1, GL_AMBIENT, [0.0, 0.0, 0.0, 1.0])
+
+            glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.0, 1.0, 0.9, 1.0])
+            glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 90.0)
+
+            self._build_display_list()
+
+        def redraw(self):
+            w = max(self.winfo_width(), 1)
+            h = max(self.winfo_height(), 1)
+            glViewport(0, 0, w, h)
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+
+            glMatrixMode(GL_PROJECTION)
+            glLoadIdentity()
+            gluPerspective(45.0, w / h, 0.1, 100.0)
+
+            glMatrixMode(GL_MODELVIEW)
+            glLoadIdentity()
+            gluLookAt(0, 0, 4, 0, 0, 0, 0, 1, 0)
+
+            s = self._model_scale
+            glScalef(s, s, s)
+
+            if self.imu_driven:
+                glRotatef(self.app.roll, 0, 1, 0)
+                glRotatef(-self.app.pitch, 1, 0, 0)
+            else:
+                glRotatef(self._mouse_ry, 0, 1, 0)
+                glRotatef(self._mouse_rx, 1, 0, 0)
+            glRotatef(-90, 1, 0, 0)
+
+            if self._display_list:
+                glEnable(GL_POLYGON_OFFSET_FILL)
+                glPolygonOffset(2.0, 2.0)
+                glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
+                glColor3f(0.03, 0.06, 0.14)
+                glCallList(self._display_list)
+                glDisable(GL_POLYGON_OFFSET_FILL)
+
+                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
+                glDisable(GL_LIGHTING)
+                glColor3f(0.0, 0.95, 0.88)
+                glLineWidth(0.8)
+                glCallList(self._display_list)
+                glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
+                glEnable(GL_LIGHTING)
+                glLineWidth(1.0)
+
+        def _on_mouse_press(self, event):
+            self._drag_last = (event.x, event.y)
+
+        def _on_mouse_drag(self, event):
+            if self.imu_driven or self._drag_last is None:
+                return
+            dx = event.x - self._drag_last[0]
+            dy = event.y - self._drag_last[1]
+            self._mouse_ry += dx * 0.5
+            self._mouse_rx += dy * 0.5
+            self._drag_last = (event.x, event.y)
+
+        def _build_display_list(self):
+            try:
+                verts, tris = load_3mf(self.model_path)
+            except Exception as e:
+                print(f"[3D] Failed to load model: {e}")
+                return
+
+            if not verts:
+                return
+
+            xs = [v[0] for v in verts]
+            ys = [v[1] for v in verts]
+            zs = [v[2] for v in verts]
+            cx = (max(xs) + min(xs)) / 2.0
+            cy = (max(ys) + min(ys)) / 2.0
+            cz = (max(zs) + min(zs)) / 2.0
+            extent = max(max(xs) - min(xs), max(ys) - min(ys), max(zs) - min(zs), 1e-9)
+            self._model_scale = 1.8 / extent
+
+            normals = []
+            for t in tris:
+                v0, v1, v2 = verts[t[0]], verts[t[1]], verts[t[2]]
+                e1 = (v1[0] - v0[0], v1[1] - v0[1], v1[2] - v0[2])
+                e2 = (v2[0] - v0[0], v2[1] - v0[1], v2[2] - v0[2])
+                nx = e1[1] * e2[2] - e1[2] * e2[1]
+                ny = e1[2] * e2[0] - e1[0] * e2[2]
+                nz = e1[0] * e2[1] - e1[1] * e2[0]
+                ln = math.sqrt(nx * nx + ny * ny + nz * nz) or 1e-9
+                normals.append((nx / ln, ny / ln, nz / ln))
+
+            self._display_list = glGenLists(1)
+            glNewList(self._display_list, GL_COMPILE)
+            glBegin(GL_TRIANGLES)
+            for i, t in enumerate(tris):
+                if i < len(normals):
+                    glNormal3f(*normals[i])
+                for vi in t:
+                    v = verts[vi]
+                    glVertex3f(v[0] - cx, v[1] - cy, v[2] - cz)
+            glEnd()
+            glEndList()
+
+
+class TelemetryVizWindow:
+    _BG = "#020208"
+    _CYAN = "#00FFE5"
+    _MAGENTA = "#FF0090"
+    _DIM_CYAN = "#004D47"
+
+    _CHART_COLORS = {
+        "temp": "#FF0090",
+        "pressure": "#00FFE5",
+    }
+
+    def __init__(self, app):
+        self.app = app
+        self.win = tk.Toplevel(app.root)
+        self.win.title("CanSat — Telemetry Visualization")
+        self.win.geometry("1300x750")
+        self.win.configure(bg=self._BG)
+        self.win.protocol("WM_DELETE_WINDOW", self._on_close)
+
+        self.time_window_sec = tk.IntVar(value=60)
+        self._att_var = tk.StringVar(value="ROLL  +0.0°   PITCH  +0.0°")
+
+        self._build_ui()
+        self._schedule_chart_update()
+
+    def _on_close(self):
+        self.win.withdraw()
+
+    def _build_ui(self):
+        left = ttk.Frame(self.win, padding=(10, 10, 5, 10))
+        left.pack(side="left", fill="both", expand=True)
+
+        right = ttk.Frame(self.win, padding=(5, 10, 10, 10))
+        right.pack(side="right", fill="both")
+
+        self._build_charts(left)
+        self._build_3d(right)
+
+    def _build_charts(self, parent):
+        ctrl = ttk.Frame(parent)
+        ctrl.pack(fill="x", pady=(0, 6))
+
+        ttk.Label(ctrl, text="Time window:", style="Header.TLabel").pack(side="left")
+
+        self._slider_label = ttk.Label(ctrl, text="60 s", style="Value.TLabel", width=6)
+        self._slider_label.pack(side="right")
+
+        ttk.Scale(
+            ctrl,
+            from_=10, to=300,
+            variable=self.time_window_sec,
+            orient="horizontal",
+            command=self._on_slider,
+        ).pack(side="left", fill="x", expand=True, padx=8)
+
+        if not _HAS_MPL:
+            ttk.Label(
+                parent,
+                text="matplotlib not installed — charts unavailable",
+                style="Header.TLabel",
+            ).pack(expand=True)
+            return
+
+        fig = Figure(figsize=(7, 6), facecolor=self._BG)
+        fig.subplots_adjust(hspace=0.42, left=0.11, right=0.97, top=0.93, bottom=0.08)
+
+        self.ax_temp = fig.add_subplot(2, 1, 1)
+        self.ax_press = fig.add_subplot(2, 1, 2)
+
+        self._style_axes()
+
+        self._canvas = FigureCanvasTkAgg(fig, master=parent)
+        self._canvas.get_tk_widget().pack(fill="both", expand=True)
+
+    def _style_axes(self):
+        configs = [
+            (self.ax_temp, "TEMPERATURE", self._CHART_COLORS["temp"], "°C"),
+            (self.ax_press, "PRESSURE", self._CHART_COLORS["pressure"], "hPa"),
+        ]
+        for ax, title, color, ylabel in configs:
+            ax.set_facecolor("#00020F")
+            ax.set_title(title, color=color, fontsize=10, pad=6,
+                         fontfamily="monospace", fontweight="bold")
+            ax.set_ylabel(ylabel, color=color, fontsize=9, fontfamily="monospace")
+            ax.tick_params(colors=self._DIM_CYAN, labelsize=8)
+            for side in ("bottom", "left"):
+                ax.spines[side].set_color(self._DIM_CYAN)
+            ax.spines["top"].set_visible(False)
+            ax.spines["right"].set_visible(False)
+            ax.grid(True, color="#001A18", linewidth=0.8)
+
+    def _build_3d(self, parent):
+        lf = ttk.LabelFrame(parent, text="Satellite Position", padding=5)
+        lf.pack(fill="both", expand=True)
+
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        model_path = os.path.join(base_dir, "Purk V2.3mf")
+
+        bar = tk.Frame(lf, bg=self._BG, pady=4)
+        bar.pack(side="bottom", fill="x")
+
+        self._mode_btn = tk.Button(
+            bar,
+            text="[ IMU ]",
+            bg=self._CYAN,
+            fg=self._BG,
+            activebackground="#33FFF0",
+            activeforeground=self._BG,
+            font=("Consolas", 11, "bold"),
+            relief="flat",
+            bd=0,
+            padx=12,
+            pady=5,
+            cursor="hand2",
+            command=self._toggle_mode,
+        )
+        self._mode_btn.pack(side="left", padx=(4, 10))
+
+        tk.Label(
+            bar,
+            textvariable=self._att_var,
+            bg=self._BG,
+            fg=self._CYAN,
+            font=("Consolas", 10, "bold"),
+            anchor="w",
+        ).pack(side="left", fill="x", expand=True)
+
+        if not _HAS_GL:
+            ttk.Label(
+                lf,
+                text="Install pyopengltk + PyOpenGL\nfor 3-D visualization",
+                style="Header.TLabel",
+                justify="center",
+            ).pack(expand=True)
+            return
+
+        if not os.path.exists(model_path):
+            ttk.Label(
+                lf,
+                text=f"3-D model not found:\n{model_path}",
+                style="Header.TLabel",
+                justify="center",
+            ).pack(expand=True)
+            return
+
+        self._gl = CanSatGLFrame(lf, self.app, model_path, width=480, height=540)
+        self._gl.pack(fill="both", expand=True)
+
+    def _toggle_mode(self):
+        if not hasattr(self, "_gl"):
+            return
+
+        gl = self._gl
+        gl.imu_driven = not gl.imu_driven
+        if gl.imu_driven:
+            self._mode_btn.config(
+                text="[ IMU ]",
+                bg=self._CYAN, fg=self._BG,
+                activebackground="#33FFF0",
+            )
+        else:
+            gl._mouse_rx = -self.app.pitch
+            gl._mouse_ry = self.app.roll
+            self._mode_btn.config(
+                text="[ MOUSE ]",
+                bg=self._MAGENTA, fg=self._BG,
+                activebackground="#FF33AA",
+            )
+
+    def _on_slider(self, val):
+        self._slider_label.config(text=f"{int(float(val))} s")
+
+    def _schedule_chart_update(self):
+        self._update_charts()
+        self.win.after(500, self._schedule_chart_update)
+
+    def _update_charts(self):
+        if not self.win.winfo_exists():
+            return
+
+        if hasattr(self, "_gl") and not self._gl.imu_driven:
+            self._att_var.set(
+                f"AZ  {self._gl._mouse_ry:+.1f}°   EL  {self._gl._mouse_rx:+.1f}°  [mouse]"
+            )
+        else:
+            self._att_var.set(
+                f"ROLL  {self.app.roll:+.1f}°   PITCH  {self.app.pitch:+.1f}°"
+            )
+
+        if not _HAS_MPL:
+            return
+
+        history = self.app.telemetry_history
+        if not history:
+            return
+
+        secs = self.time_window_sec.get()
+        cutoff = datetime.now() - timedelta(seconds=secs)
+        visible = [d for d in history if d["time"] >= cutoff]
+        if not visible:
+            return
+
+        t0 = visible[0]["time"]
+        x = [(d["time"] - t0).total_seconds() for d in visible]
+        temps = [d["temp"] for d in visible]
+        pressures = [d["pressure"] for d in visible]
+
+        for ax, data, color, title, ylabel, xlabel in (
+            (self.ax_temp, temps, self._CHART_COLORS["temp"], "Temperature", "°C", ""),
+            (self.ax_press, pressures, self._CHART_COLORS["pressure"], "Pressure", "hPa", "seconds"),
+        ):
+            ax.clear()
+            ax.set_facecolor("#00020F")
+            ax.set_title(title, color=color, fontsize=10, pad=6,
+                         fontfamily="monospace", fontweight="bold")
+            ax.set_ylabel(ylabel, color=color, fontsize=9, fontfamily="monospace")
+            if xlabel:
+                ax.set_xlabel(xlabel, color=self._DIM_CYAN, fontsize=8,
+                              fontfamily="monospace")
+            ax.tick_params(colors=self._DIM_CYAN, labelsize=8)
+            for side in ("bottom", "left"):
+                ax.spines[side].set_color(self._DIM_CYAN)
+            ax.spines["top"].set_visible(False)
+            ax.spines["right"].set_visible(False)
+            ax.grid(True, color="#001A18", linewidth=0.8)
+
+            ax.plot(x, data, color=color, linewidth=2, zorder=3)
+            ax.fill_between(x, data, alpha=0.15, color=color, zorder=2)
+
+            if data:
+                ax.annotate(
+                    f"{data[-1]:.2f}",
+                    xy=(x[-1], data[-1]),
+                    xytext=(6, 4),
+                    textcoords="offset points",
+                    color=color,
+                    fontsize=9,
+                    fontweight="bold",
+                    fontfamily="monospace",
+                )
+
+        self._canvas.draw_idle()
 
 
 class AttitudeIndicator(tk.Canvas):
@@ -162,6 +609,7 @@ class GroundStationApp:
         self.serial_thread = None
         self.running = False
         self.rx_queue = queue.Queue()
+        self.sat_started = False
 
         self.packet_count = 0
         self.last_packet_time = None
@@ -174,12 +622,15 @@ class GroundStationApp:
         self.vy = 0.0
 
         self.last_seq = None
+        self.telemetry_history = []
 
         self._build_styles()
         self._build_ui()
         self.refresh_ports()
         self.root.after(100, self.process_queue)
         self.root.after(500, self.update_link_status)
+
+        self.viz_window = TelemetryVizWindow(self)
 
     def _build_styles(self):
         style = ttk.Style()
@@ -190,10 +641,14 @@ class GroundStationApp:
 
         style.configure("TFrame", background="#0F1115")
         style.configure("TLabelframe", background="#151922", foreground="#E6EAF2")
-        style.configure("TLabelframe.Label", background="#151922", foreground="#E6EAF2", font=("Segoe UI", 11, "bold"))
-        style.configure("TLabel", background="#0F1115", foreground="#E6EAF2", font=("Segoe UI", 10))
-        style.configure("Header.TLabel", background="#0F1115", foreground="#7FDBFF", font=("Segoe UI", 11, "bold"))
-        style.configure("Value.TLabel", background="#151922", foreground="#FFFFFF", font=("Consolas", 12, "bold"))
+        style.configure("TLabelframe.Label", background="#151922", foreground="#E6EAF2",
+                        font=("Segoe UI", 11, "bold"))
+        style.configure("TLabel", background="#0F1115", foreground="#E6EAF2",
+                        font=("Segoe UI", 10))
+        style.configure("Header.TLabel", background="#0F1115", foreground="#7FDBFF",
+                        font=("Segoe UI", 11, "bold"))
+        style.configure("Value.TLabel", background="#151922", foreground="#FFFFFF",
+                        font=("Consolas", 12, "bold"))
         style.configure("TButton", font=("Segoe UI", 10))
 
     def _build_ui(self):
@@ -214,27 +669,41 @@ class GroundStationApp:
         self.connect_btn = ttk.Button(top, text="Connect", command=self.toggle_connection)
         self.connect_btn.pack(side="left", padx=10)
 
-        self.deploy_btn = tk.Button(
+        self.start_btn = tk.Button(
             top,
-            text="LANGEVARI",
-            bg="#C62828",
+            text="▶  START SAT",
+            bg="#1B5E20",
             fg="white",
-            activebackground="#E53935",
+            activebackground="#2E7D32",
             activeforeground="white",
             font=("Segoe UI", 11, "bold"),
-            command=self.manual_deploy
+            command=self.start_satellite,
         )
-        self.deploy_btn.pack(side="left", padx=12)
+        self.start_btn.pack(side="left", padx=6)
+
+        self.stop_btn = tk.Button(
+            top,
+            text="■  STOP SAT",
+            bg="#8B5E00",
+            fg="white",
+            activebackground="#A66F00",
+            activeforeground="white",
+            font=("Segoe UI", 11, "bold"),
+            command=self.stop_satellite,
+        )
+        self.stop_btn.pack(side="left", padx=6)
 
         self.status_var = tk.StringVar(value="Disconnected")
         self.packet_var = tk.StringVar(value="Packets: 0")
         self.last_rx_var = tk.StringVar(value="Last RX: -")
         self.link_var = tk.StringVar(value="Link: idle")
+        self.sat_status_var = tk.StringVar(value="SAT: —")
 
         ttk.Label(top, textvariable=self.status_var, style="Header.TLabel").pack(side="left", padx=(20, 10))
         ttk.Label(top, textvariable=self.packet_var).pack(side="left", padx=10)
         ttk.Label(top, textvariable=self.last_rx_var).pack(side="left", padx=10)
         ttk.Label(top, textvariable=self.link_var, style="Header.TLabel").pack(side="left", padx=10)
+        ttk.Label(top, textvariable=self.sat_status_var, style="Header.TLabel").pack(side="left", padx=10)
 
         main = ttk.Frame(self.root, padding=(10, 0, 10, 10))
         main.pack(fill="both", expand=True)
@@ -371,21 +840,62 @@ class GroundStationApp:
         self.link_var.set("Link: idle")
         self.log("Disconnected")
 
-    def manual_deploy(self):
+    def start_satellite(self):
+        if not self.running or not self.serial_port or not self.serial_port.is_open:
+            messagebox.showerror("Error", "Not connected to radio.")
+            return
+        try:
+            for _ in range(3):
+                self.serial_port.write(b"CMD,START\n")
+            self.log("CMD,START sent — waiting for satellite confirmation")
+            self.sat_status_var.set("SAT: STARTING…")
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
+
+    def stop_satellite(self):
         if not self.running or not self.serial_port or not self.serial_port.is_open:
             messagebox.showerror("Error", "Not connected to radio.")
             return
 
-        ok = messagebox.askyesno("Confirm parachute deploy", "Send MANUAL DEPLOY command?")
+        ok = messagebox.askyesno(
+            "Confirm STOP SAT",
+            "Send CMD,STOP to the satellite?\n\nThis should stop logging/saving remotely."
+        )
         if not ok:
             return
 
         try:
             for _ in range(3):
-                self.serial_port.write(b"CMD,DEPLOY\n")
-            self.log("MANUAL DEPLOY sent")
+                self.serial_port.write(b"CMD,STOP\n")
+            self.log("CMD,STOP sent")
+            self.sat_status_var.set("SAT: STOPPING…")
         except Exception as e:
             messagebox.showerror("Error", str(e))
+
+    def handle_status(self, line):
+        parts = line.split(",", 1)
+        if len(parts) < 2:
+            return
+        status = parts[1].strip()
+
+        if status == "READY":
+            self.sat_status_var.set("SAT: STANDBY")
+            self.start_btn.config(state="normal", bg="#1B5E20", fg="white")
+            self.log("Satellite is standing by — press START SAT to begin")
+
+        elif status == "RUNNING":
+            self.sat_status_var.set("SAT: RUNNING ●")
+            self.sat_started = True
+            self.start_btn.config(state="disabled", bg="#424242", fg="#888888")
+            self.log("Satellite started — recording and transmitting")
+
+        elif status in ("STOPPED", "IDLE"):
+            self.sat_status_var.set("SAT: STOPPED")
+            self.start_btn.config(state="normal", bg="#1B5E20", fg="white")
+            self.log("Satellite stopped logging/transmitting")
+
+        else:
+            self.log(f"SAT status: {status}")
 
     def serial_reader(self):
         while self.running:
@@ -430,6 +940,8 @@ class GroundStationApp:
 
         if line.startswith("TEL,"):
             self.handle_telemetry(line)
+        elif line.startswith("STATUS,"):
+            self.handle_status(line)
         elif line.startswith("IMGMETA,"):
             self.handle_imgmeta(line)
         elif line.startswith("IMG,"):
@@ -452,24 +964,37 @@ class GroundStationApp:
 
     def handle_telemetry(self, line):
         parts = line.split(",")
-        if len(parts) < 16:
+
+        if len(parts) < 12:
             self.log(f"Bad TEL packet: {line}")
             return
 
         try:
-            _, seq, timestamp, temp, pressure, alt, ax, ay, az, gx, gy, gz, peak_alt, descent_count, deployed, deploy_reason = parts[:16]
+            if len(parts) >= 16:
+                (
+                    _, seq, timestamp, temp, pressure, alt,
+                    ax, ay, az, gx, gy, gz,
+                    peak_alt, descent_count, deployed, deploy_reason
+                ) = parts[:16]
+            else:
+                (
+                    _, seq, timestamp, temp, pressure, alt,
+                    ax, ay, az, gx, gy, gz
+                ) = parts[:12]
+                peak_alt = alt
+                descent_count = "0"
+                deployed = "0"
+                deploy_reason = "NONE"
         except ValueError:
             self.log(f"Parse TEL failed: {line}")
             return
 
-        # ACK back to CanSat
         try:
             if self.serial_port and self.serial_port.is_open:
                 self.serial_port.write(f"ACK,{seq}\n".encode("utf-8"))
         except Exception as e:
             self.log(f"ACK send error: {e}")
 
-        # Packet counting / loss
         self.packet_count += 1
         self.last_packet_time = datetime.now()
         self.packet_var.set(f"Packets: {self.packet_count}")
@@ -517,6 +1042,16 @@ class GroundStationApp:
         self.vy = max(-60, min(60, -gxf * 0.08))
 
         self.attitude.draw_indicator(self.roll, self.pitch)
+
+        self.telemetry_history.append({
+            "time": datetime.now(),
+            "temp": self._safe_float(temp),
+            "pressure": self._safe_float(pressure),
+            "alt": self._safe_float(alt),
+        })
+        if len(self.telemetry_history) > 2000:
+            cutoff = datetime.now() - timedelta(seconds=600)
+            self.telemetry_history = [d for d in self.telemetry_history if d["time"] > cutoff]
 
         new_file = not os.path.exists(self.telemetry_csv)
         with open(self.telemetry_csv, "a", newline="", encoding="utf-8") as f:
